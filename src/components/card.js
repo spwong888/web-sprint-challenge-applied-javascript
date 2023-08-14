@@ -27,6 +27,8 @@
   //
 
 const Card = (article) => {
+  console.log(article);
+  
   const cardElement = document.createElement('div');
   cardElement.classList.add('card');
 

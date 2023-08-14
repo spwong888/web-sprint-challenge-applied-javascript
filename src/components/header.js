@@ -26,16 +26,35 @@
 
 
 const Header = (title, date, temp) => {
-  return `
-    <div class="header">
-      <span class="date">${date}</span>
-      <h1>${title}</h1>
-      <span class="temp">${temp}</span>
-    </div>
-  `;
-}
+  const header = document.createElement('div');
+  header.classList.add('header');
+
+  const dateElement = document.createElement('span');
+  dateElement.classList.add('date');
+  dateElement.textContent = date;
+
+  const titleElement = document.createElement('h1');
+  titleElement.textContent = title;
+
+  const tempElement = document.createElement('span');
+  tempElement.classList.add('temp');
+  tempElement.textContent = temp;
+
+  header.appendChild(dateElement);
+  header.appendChild(titleElement);
+  header.appendChild(tempElement);
+
+  return header;
+  //`
+  //<div class="header">
+  // <span class="date">${date}</span>
+  // <h1>${title}</h1>
+  // <span class="temp">${temp}</span>
+ // </div>
+//`;
+};
   
-const headerAppender = (selector) => {
+function headerAppender(selector) {
   const title = "Welcome to Our Website";
   const date = "August 14, 2023";
   const temp = "25°C";
@@ -43,7 +62,8 @@ const headerAppender = (selector) => {
 
   const targetElement = document.querySelector(selector);
 
-  targetElement.innerHTML = headerMarkup;
+  targetElement.innerHTML = ''; 
+  targetElement.appendChild(headerMarkup); 
 }
 
 export { Header, headerAppender }
