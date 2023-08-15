@@ -28,7 +28,7 @@
 
 const Card = (article) => {
   console.log(article);
-  
+
   const cardElement = document.createElement('div');
   cardElement.classList.add('card');
 
@@ -73,6 +73,7 @@ const cardAppender = async (selector) => {
 
     articles.forEach(article => {
       const card = Card(article);
+      console.log(article);
       targetElement.appendChild(card);
     });
   } catch (error) {

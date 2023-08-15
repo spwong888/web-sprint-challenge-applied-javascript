@@ -45,16 +45,23 @@ describe('TASK 2 - headerAppender, Review DOM selectors and appending to it.', (
 })
 
 describe('TASK 3 - Tabs, Review how to iterate (loop) over a list of data creating a new component for each item, manipulate it (such as adding a class and text to it), and attaching that component to the DOM.', () => {
-  let tabs
+  let tabs;
+  
   beforeEach(() => {
-    tabs = Tabs(['foo', 'bar', 'baz'])
-  })
+    tabs = Tabs(['foo', 'bar', 'baz']);
+  });
+  
   test('[5] returns topic tabs with the correct text', () => {
-    expect(queries.getByText(tabs, 'foo'))
-    expect(queries.getByText(tabs, 'bar'))
-    expect(queries.getByText(tabs, 'baz'))
-  })
-})
+    const { getByText } = queries;
+    
+    const container = document.createElement('div');
+    tabs.forEach(tab => container.appendChild(tab));
+    
+    expect(getByText(container, 'foo')).toBeInTheDocument();
+    expect(getByText(container, 'bar')).toBeInTheDocument();
+    expect(getByText(container, 'baz')).toBeInTheDocument();
+  });
+});
 
 describe('TASK 4 - tabsAppender,  Review making HTTP requests and getting data from a server using axios as well as how to use promises and iterate over a list of data received from a server, creating a set of components and adding them to the DOM.', () => {
   beforeEach(() => {
