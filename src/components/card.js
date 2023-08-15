@@ -29,68 +29,45 @@
 
   import axios from 'axios';
 
-  const Card = (article) => {
-    const cardElement = document.createElement('div');
-    cardElement.classList.add('card');
-  
-    const headlineElement = document.createElement('div');
-    headlineElement.classList.add('headline');
-    headlineElement.textContent = article.headline;
-  
-    const authorElement = document.createElement('div');
-    authorElement.classList.add('author');
-  
-    const imgContainerElement = document.createElement('div');
-    imgContainerElement.classList.add('img-container');
-  
-    const authorImgElement = document.createElement('img');
-    authorImgElement.src = article.authorPhoto;
-  
-    const authorNameElement = document.createElement('span');
-    authorNameElement.textContent = `By ${article.authorName}`;
-  
-    cardElement.addEventListener('click', () => {
-      console.log(article.headline);
-    });
-  
-    imgContainerElement.appendChild(authorImgElement);
-    authorElement.appendChild(imgContainerElement);
-    authorElement.appendChild(authorNameElement);
-  
-    cardElement.appendChild(headlineElement);
-    cardElement.appendChild(authorElement);
-  
-    return cardElement;
-  };
-  
-  const cardAppender = (selector) => {
-    const targetElement = document.querySelector(selector);
-  
-    axios.get('http://localhost:5001/api/articles')
-      .then(response => {
-        console.log('Response Data:', response.data);
-  
-        const articles = Object.values(response.data).flat();
-        console.log('Articles:', articles);
-  
-        articles.forEach(article => {
-          console.log('Article:', article);
-          console.log('Headline:', article.headline);
-          console.log('Author Name:', article.authorName);
-          console.log('Author Photo:', article.authorPhoto);
-  
-          const card = Card(article);
-          targetElement.appendChild(card);
-        });
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-  };
-  
-  document.addEventListener('DOMContentLoaded', () => {
-    const selector = '.cards-container';
-    cardAppender(selector);
+const Card = (article) => {
+  const card = document.createElement('div');
+  const headline = document.createElement('div');
+  const author = document.createElement('div');
+  const imgContainer = document.createElement('div');
+  const image = document.createElement('img');
+  const authorName = document.createElement('span');
+
+  card.appendChild(headline);
+  card.appendChild(author);
+  author.appendChild(imgContainer);
+  author.appendChild(authorName);
+  imgContainer.appendChild(image);
+
+  card.classList.add('card');
+  headline.classList.add('headline');
+  author.classList.add('author');
+  imgContainer.classList.add('img-container');
+
+  headline.textContent = article.headline;
+  image.src = article.authorPhoto;
+  authorName.textContent = `By ${article.authorName}`;
+
+  card.addEventListener('click', () => {
+    console.log(headline.textContent);
   });
-  
-  export { Card, cardAppender };
+
+  return card;
+};
+
+const cardAppender = async (selector) => {
+  try {
+    const res = await axios.get('http://localhost:5001/api/articles');
+    const articles = Object.values(res.data.articles).flat();
+    const container = document.querySelector(selector);
+    articles.forEach(article => container.appendChild(Card(article)));
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+
+export { Card, cardAppender };
