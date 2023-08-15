@@ -48,20 +48,14 @@ describe('TASK 3 - Tabs, Review how to iterate (loop) over a list of data creati
   let tabs;
   
   beforeEach(() => {
-    tabs = Tabs(['foo', 'bar', 'baz']);
-  });
-  
+    tabs = Tabs(['foo', 'bar', 'baz'])
+  })
   test('[5] returns topic tabs with the correct text', () => {
-    const { getByText } = queries;
-    
-    const container = document.createElement('div');
-    tabs.forEach(tab => container.appendChild(tab));
-    
-    expect(getByText(container, 'foo')).toBeInTheDocument();
-    expect(getByText(container, 'bar')).toBeInTheDocument();
-    expect(getByText(container, 'baz')).toBeInTheDocument();
-  });
-});
+    expect(queries.getByText(tabs, 'foo'))
+    expect(queries.getByText(tabs, 'bar'))
+    expect(queries.getByText(tabs, 'baz'))
+  })
+})
 
 describe('TASK 4 - tabsAppender,  Review making HTTP requests and getting data from a server using axios as well as how to use promises and iterate over a list of data received from a server, creating a set of components and adding them to the DOM.', () => {
   beforeEach(() => {
@@ -95,6 +89,12 @@ describe('TASK 6 - cardAppender,  Review making HTTP requests and getting data f
     cardAppender('body')
   })
   test('[10] fetches articles and appends all article cards to the DOM', async () => {
+    const articles = {
+      articles: [
+        { headline: '' },
+        { headline: '' },
+      ]
+    };
     const headlines = Object.values(articles.articles).flat().map(art => art.headline)
     for (let i = 0; i < headlines.length; i++) {
       expect(await screen.findByText(headlines[i])).toBeInTheDocument()

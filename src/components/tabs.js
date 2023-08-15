@@ -21,32 +21,40 @@
   // Append the tabs to the element in the DOM that matches the selector passed to the function.
   //
 
-const Tabs = (topics) => {
-  const tabsMarkup = topics.map(topic => `<div class="tab">${topic}</div>`).join('');
-
-  return `
-    <div class="topics">
-      ${tabsMarkup}
-    </div>
-  `;
+  const createTabElement = (text) => {
+    const tab = document.createElement('div');
+    tab.className = 'tab';
+    tab.textContent = text;
+    return tab;
+  };
   
-}
-
-const tabsAppender = async (selector) => {
-  try {
-    const response = await fetch('http://localhost:5001/api/topics');
-    const data = await response.json();
+  const Tabs = (topics) => {
+    const topicsContainer = document.createElement('div');
+    topicsContainer.className = 'topics';
     
-    const topics = data.topics;
+    topics.forEach(topic => {
+      const tabElement = createTabElement(topic);
+      topicsContainer.appendChild(tabElement);
+    });
+  
+    return topicsContainer;
+  };
 
-    const tabsMarkup = Tabs(topics);
-
-    const targetElement = document.querySelector(selector);
-
-    targetElement.innerHTML = tabsMarkup;
-  } catch (error) {
-    console.error('Error:', error);
-  }
-}
-
-export { Tabs, tabsAppender }
+  const tabsAppender = async (selector) => {
+    try {
+      const response = await fetch('http://localhost:5001/api/topics');
+      const data = await response.json();
+      
+      const topics = data.topics;
+  
+      const topicsContainer = Tabs(topics);
+  
+      const targetElement = document.querySelector(selector);
+      targetElement.innerHTML = ''; // Clear existing content
+      targetElement.appendChild(topicsContainer);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+  
+  export { Tabs, tabsAppender };
