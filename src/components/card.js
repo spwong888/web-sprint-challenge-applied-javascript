@@ -68,6 +68,7 @@
   
     axios.get('http://localhost:5001/api/articles')
       .then(response => {
+        console.log(response.data); 
         const articles = Object.values(response.data).flat();
         articles.forEach(article => {
           const card = Card(article);

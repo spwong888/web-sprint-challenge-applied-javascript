@@ -89,15 +89,12 @@ describe('TASK 6 - cardAppender,  Review making HTTP requests and getting data f
     cardAppender('body')
   })
   test('[10] fetches articles and appends all article cards to the DOM', async () => {
-    const articles = {
-      articles: [
-        { headline: '' },
-        { headline: '' },
-      ]
-    };
     const headlines = Object.values(articles.articles).flat().map(art => art.headline)
     for (let i = 0; i < headlines.length; i++) {
       expect(await screen.findByText(headlines[i])).toBeInTheDocument()
     }
   })
 })
+
+// ES8: The Next Step in the Evolution of Javascript and What it Means For Your Projects
+// Type Coercion: Why Does NaN !== NaN? and Other Strange Occurrences
