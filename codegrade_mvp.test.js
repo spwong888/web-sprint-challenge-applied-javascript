@@ -84,17 +84,23 @@ describe('TASK 5 - Card, Review how to iterate (loop) over a list of data creati
   })
 })
 
-describe('TASK 6 - cardAppender,  Review making HTTP requests and getting data from a server using axios as well as how to use promises and iterate over a list of data received from a server, creating a set of components and adding them to the DOM.', () => {
+import { waitFor } from '@testing-library/dom';
+
+describe('TASK 6 - cardAppender', () => {
   beforeEach(() => {
-    cardAppender('body')
-  })
+    cardAppender('body');
+  });
+
   test('[10] fetches articles and appends all article cards to the DOM', async () => {
-    const headlines = Object.values(articles.articles).flat().map(art => art.headline)
-    for (let i = 0; i < headlines.length; i++) {
-      expect(await screen.findByText(headlines[i])).toBeInTheDocument()
-    }
-  })
-})
+    const headlines = Object.values(articles.articles).flat().map(art => art.headline);
+    
+    await waitFor(() => {
+      headlines.forEach(async (headline) => {
+        expect(await screen.findByText(headline)).toBeInTheDocument();
+      });
+    });
+  });
+});
 
 // ES8: The Next Step in the Evolution of Javascript and What it Means For Your Projects
 // Type Coercion: Why Does NaN !== NaN? and Other Strange Occurrences
